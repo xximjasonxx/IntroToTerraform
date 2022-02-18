@@ -38,3 +38,11 @@ variable plan_size {
     error_message   = "Allowed Plan Sizes are B1 for Basic Tier or S1 for Standard Tier."
   }
 }
+
+variable user_managed_identity_id {
+  type    = string
+}
+
+variable docker_image {
+  type    = string
+}

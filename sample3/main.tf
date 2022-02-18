@@ -42,18 +42,24 @@ module identity {
       role_definition_name = "AcrPull"
       resource_id          = azurerm_container_registry.acr.id
     }
-  }
+    "saReader" = {
+      role_definition_name = "Reader"
+      resource_id          = module.storage.storage_account_resource_id
+    }
+   }
 }
 
 // create the app service
 module app_service {
   source    = "./modules/appservice"
 
-  app_name            = var.app_name
-  environment         = var.environment
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  plan_kind           = "Linux"
-  plan_tier           = var.environment == "p" ? "Standard" : "Basic"
-  plan_size           = var.environment == "p" ? "S1" : "B1"
+  app_name                  = var.app_name
+  environment               = var.environment
+  location                  = var.location
+  resource_group_name       = azurerm_resource_group.rg.name
+  plan_kind                 = "Linux"
+  plan_tier                 = var.environment == "p" ? "Standard" : "Basic"
+  plan_size                 = var.environment == "p" ? "S1" : "B1"
+  user_managed_identity_id  = module.identity.identity_resource_id
+  docker_image              = "acrtestapp.azurecr.io/fileupload:v2"
 }
