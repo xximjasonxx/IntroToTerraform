@@ -7,14 +7,32 @@ on:
 
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: sample3
-
 jobs:
-  deployInfraDev:
-    name: Deploy Infrastructure (Dev)
+  deployInfraShared:
+    name: Deploy Infras (Shared)
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sample3/shared
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: hashicorp/setup-terraform@v1
+        name: Setup Terraform
+      - run: |
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}"
+        name: Terraform Init
+      - run: |
+          terraform apply -auto-approve -var 'location=eastus' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+        name: Terraform Apply
+
+  deployInfraDev:
+    name: Deploy Infra (Dev)
+    runs-on: ubuntu-latest
+    needs: deployInfraShared
+    defaults:
+      run:
+        working-directory: sample3/app
     steps:
       - uses: actions/checkout@v2
       
@@ -32,6 +50,9 @@ jobs:
     needs: deployInfraDev
     runs-on: ubuntu-latest
     environment: production
+    defaults:
+      run:
+        working-directory: sample3/app
     steps:
       - uses: actions/checkout@v2
       
