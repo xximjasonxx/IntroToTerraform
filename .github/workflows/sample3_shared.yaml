@@ -1,4 +1,4 @@
-name: Sample 3 CI
+name: Sample 3 Shared Deploy
 
 on:
   workflow_dispatch:

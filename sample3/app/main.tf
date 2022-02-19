@@ -4,7 +4,7 @@ resource azurerm_resource_group rg {
   location  = var.location
 }
 
-// create the container registry
+// reference the container registry
 data azurerm_container_registry acr {
   name      = "rg-shared"
   location  = var.location
@@ -58,5 +58,5 @@ module app_service {
   plan_tier                 = var.environment == "p" ? "Standard" : "Basic"
   plan_size                 = var.environment == "p" ? "S1" : "B1"
   user_managed_identity_id  = module.identity.identity_resource_id
-  docker_image              = "acrtestapp.azurecr.io/fileupload:v2"
+  docker_image              = "${data.azurerm_container_registry.acr.login_server}/fileupload:v1"
 }
