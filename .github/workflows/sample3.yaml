@@ -31,5 +31,15 @@ jobs:
     name: Deploy Infrastructure (Test)
     needs: deployInfraDev
     runs-on: ubuntu-latest
+    environment: test
     steps:
-      - run: echo "Hello from Test Deploy"
+      - uses: actions/checkout@v2
+      
+      - uses: hashicorp/setup-terraform@v1
+        name: Setup Terraform
+      - run: |
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.test"
+        name: Terraform Init
+      - run: |
+          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=t' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+        name: Terraform Apply
