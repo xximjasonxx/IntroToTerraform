@@ -6,6 +6,7 @@ resource azurerm_resource_group rg {
 
 // create the container registry
 resource azurerm_container_registry acr {
+  count               = var.environment == "p" ? 0 : 1
   name                = "acr${var.app_name}"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name

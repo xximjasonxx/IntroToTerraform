@@ -28,10 +28,10 @@ jobs:
         name: Terraform Apply
 
   deployInfraProd:
-    name: Deploy Infrastructure (Production)
+    name: Deploy Infrastructure (Prod)
     needs: deployInfraDev
     runs-on: ubuntu-latest
-    environment: test
+    environment: production
     steps:
       - uses: actions/checkout@v2
       
