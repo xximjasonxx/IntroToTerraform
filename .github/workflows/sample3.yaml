@@ -21,7 +21,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
         name: Setup Terraform
       - run: |
-          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }} -backend-config=key=testapp.dev"
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.dev"
         name: Terraform Init
       - run: |
           terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=d' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
