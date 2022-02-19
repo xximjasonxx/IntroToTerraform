@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+
 jobs:
   deployInfraDev:
     name: Deploy Infrastructure (Dev)
