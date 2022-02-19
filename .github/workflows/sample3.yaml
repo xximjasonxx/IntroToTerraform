@@ -7,6 +7,10 @@ on:
 
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: sample3
+
 jobs:
   deployInfraDev:
     name: Deploy Infrastructure (Dev)
