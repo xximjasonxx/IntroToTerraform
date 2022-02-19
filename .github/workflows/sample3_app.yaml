@@ -23,11 +23,11 @@ jobs:
           terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.dev"
         name: Terraform Init
       - run: |
-          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=d' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+          terraform apply -auto-approve -var-file parameters.dev.tfvars -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
         name: Terraform Apply
 
   deployInfraProd:
-    name: Deploy Infrastructure (Prod)
+    name: Deploy Infra (Prod)
     needs: deployInfraDev
     runs-on: ubuntu-latest
     environment: production
@@ -43,5 +43,5 @@ jobs:
           terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.prod"
         name: Terraform Init
       - run: |
-          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=p' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+          terraform apply -auto-approve -var-file parameters.prod.tfvars -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
         name: Terraform Apply

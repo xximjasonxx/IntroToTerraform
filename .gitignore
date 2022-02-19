@@ -2,4 +2,4 @@
 **/.terraform*
 *.sh
 *.tfstate*
-*.tfvars
+terraform.tfvars

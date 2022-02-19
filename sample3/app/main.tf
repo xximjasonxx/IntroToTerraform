@@ -6,8 +6,8 @@ resource azurerm_resource_group rg {
 
 // reference the container registry
 data azurerm_container_registry acr {
-  name      = "rg-shared"
-  location  = var.location
+  name                = var.registry_name
+  resource_group_name = var.registry_resource_group
 }
 
 // create the storage account

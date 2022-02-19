@@ -23,3 +23,11 @@ variable environment {
 variable app_name {
   type = string
 }
+
+variable registry_name {
+  type = string
+}
+
+variable registry_resource_group {
+  type = string
+}
