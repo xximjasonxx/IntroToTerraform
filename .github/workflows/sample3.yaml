@@ -1,0 +1,28 @@
+name: Sample 3 CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployInfraDev:
+    name: Deploy Infrastructure (Dev)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: hashicorp/setup-terraform@v1
+        name: Setup Terraform
+      - run: |
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }} -backend-config="key=testapp.dev"
+        name: Terraform Init
+      - run: |
+          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=d' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+        name: Terraform Apply
+
+  deployInfraTest:
+    name: Deploy Infrastructure (Test)
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello from Test Deploy"
