@@ -27,8 +27,8 @@ jobs:
           terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=d' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
         name: Terraform Apply
 
-  deployInfraTest:
-    name: Deploy Infrastructure (Test)
+  deployInfraProd:
+    name: Deploy Infrastructure (Production)
     needs: deployInfraDev
     runs-on: ubuntu-latest
     environment: test
@@ -38,8 +38,8 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
         name: Setup Terraform
       - run: |
-          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.test"
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}" -backend-config="key=testapp.prod"
         name: Terraform Init
       - run: |
-          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=t' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+          terraform apply -auto-approve -var 'app_name=testapp' -var 'location=eastus' -var 'environment=p' -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
         name: Terraform Apply
