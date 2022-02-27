@@ -1,22 +1,32 @@
 
-// get a reference to an existing resource group (data source)
+// create a resource group
 resource azurerm_resource_group rg {
-  name      = "rg-${var.departmentCode}-sample2"
+  name      = "rg-${var.departmentCode}-sample${var.numberCode}"
   location  = var.location
 }
 
-// deploy a resource (storage account w/ container)
-resource azurerm_storage_account storage {
-  name                      = "st${departmentCode}jx01"
-  resource_group_name       = data.azurerm_resource_group.rg.name
-  location                  = data.azurerm_resource_group.rg.location
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
+// create the app service (host nginx)
+resource azurerm_app_service_plan plan {
+  name                = "plan-${var.departmentCode}-sample${var.numberCode}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  kind                = "Linux"
+  reserved            = true
+
+  sku {
+    tier              = var.planSize == "B1" ? "Basic" : "Standard"
+    size              = var.planSize
+  }
 }
 
-resource azurerm_storage_container images {
-  count                 = var.numberOfContainers
-  name                  = "images${count.index}"
-  storage_account_name  = azurerm_storage_account.storage.name
-  container_access_type = "private"
+resource azurerm_app_service app {
+  name                = "app-${var.departmentCode}-sample${var.numberCode}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  app_service_plan_id = azurerm_app_service_plan.plan.id
+
+  site_config {
+    always_on         = true
+    linux_fx_version  = "DOCKER|nginx"
+  }
 }
