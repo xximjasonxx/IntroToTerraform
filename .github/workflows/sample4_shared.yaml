@@ -1,4 +1,4 @@
-name: Sample 3 Shared Deploy
+name: Sample 4 Shared Deploy
 
 on:
   workflow_dispatch:

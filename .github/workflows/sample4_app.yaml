@@ -1,11 +1,11 @@
-name: Sample 3 App Deploy
+name: Sample 4 App Deploy
 
 on:
   push:
     branches:
       - main
     paths:
-      - sample3
+      - sample4
   workflow_dispatch:
 
 jobs:
