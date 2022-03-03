@@ -14,7 +14,7 @@ variable departmentCode {
 
 variable environmentCode {
   type            = string
-  validation {
+  validation {x`
     condition       = length(var.environmentCode) == 1 && (var.environmentCode == "p" || var.environmentCode == "d")
     error_message   = "Environment code must be 2 characters and must be 'p' or 'd'."
   }
