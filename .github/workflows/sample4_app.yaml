@@ -1,11 +1,6 @@
 name: Sample 4 App Deploy
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - sample4
   workflow_dispatch:
 
 jobs:
