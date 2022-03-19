@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sample3/shared
+        working-directory: sample4/shared
     steps:
       - uses: actions/checkout@v2
       
