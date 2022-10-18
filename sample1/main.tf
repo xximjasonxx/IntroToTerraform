@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=2.72.0"
+      version = "=3.27.0"
     }
   }
 }
@@ -14,16 +14,20 @@ provider "azurerm" {
   tenant_id       = "e15b8f94-b657-4f98-a1f2-9df013c37c73"
 }
 
-// get a reference to an existing resource group (data source)
-data azurerm_resource_group rg {
-  name      = "rg-terraform-sample1"
+locals {
+  location = "eastus"
+}
+
+resource azurerm_resource_group rg {
+  name = "rg-terraform-sandbox"
+  location = local.location
 }
 
 // deploy a resource (storage account w/ container)
 resource azurerm_storage_account storage {
   name                      = "stterraformsample01"
-  resource_group_name       = data.azurerm_resource_group.rg.name
-  location                  = data.azurerm_resource_group.rg.location
+  resource_group_name       = azurerm_resource_group.rg.name
+  location                  = azurerm_resource_group.rg.location
   account_tier              = "Standard"
   account_replication_type  = "LRS"
 }

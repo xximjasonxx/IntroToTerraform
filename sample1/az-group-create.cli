@@ -1,1 +1,0 @@
-az group create --resource-group rg-terraform-sample1 --location eastus

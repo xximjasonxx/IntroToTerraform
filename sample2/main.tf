@@ -1,32 +1,15 @@
 
 // create a resource group
-resource azurerm_resource_group rg {
-  name      = "rg-${var.departmentCode}-sample${var.numberCode}"
-  location  = var.location
+data azurerm_resource_group rg {
+  name      = var.resource_group_name
 }
 
-// create the app service (host nginx)
-resource azurerm_app_service_plan plan {
-  name                = "plan-${var.departmentCode}-sample${var.numberCode}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  kind                = "Linux"
-  reserved            = true
+module app {
+  source = "./modules/app-service"
 
-  sku {
-    tier              = var.planSize == "B1" ? "Basic" : "Standard"
-    size              = var.planSize
-  }
-}
-
-resource azurerm_app_service app {
-  name                = "app-${var.departmentCode}-sample${var.numberCode}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_app_service_plan.plan.id
-
-  site_config {
-    always_on         = true
-    linux_fx_version  = "DOCKER|nginx"
-  }
+  app_name    = var.app_name
+  location    = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  plan_size = "B1"
+  container_image_name = "DOCKER|nginx"
 }
