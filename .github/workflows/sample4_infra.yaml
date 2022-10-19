@@ -24,5 +24,5 @@ jobs:
           terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}"
         name: Terraform Init
       - run: |
-          terraform apply -auto-approve -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+          terraform apply -auto-approve -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}' -var 'resource_group_name=rg-terraform-sandbox'
         name: Terraform Apply
