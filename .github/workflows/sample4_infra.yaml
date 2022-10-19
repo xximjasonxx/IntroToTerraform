@@ -3,9 +3,10 @@ name: Sample 4 Infrastructure
 on:
   push:
     branches:
-      - main
+      - 'main'
     paths:
-      - sample4/infra
+      - 'sample4/infra'
+  workflow_dispatch:
 
 jobs:
   deploy:
