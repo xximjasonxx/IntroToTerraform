@@ -1,0 +1,27 @@
+name: Sample 4 Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - sample4/infra
+
+jobs:
+  deploy:
+    name: Deploy Infra
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sample4/app
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: hashicorp/setup-terraform@v1
+        name: Setup Terraform
+      - run: |
+          terraform init -backend-config="access_key=${{ secrets.TERRAFORM_STATE_STORAGE_ACCESS_KEY }}"
+        name: Terraform Init
+      - run: |
+          terraform apply -auto-approve -var 'client_secret=${{ secrets.TERRAFORM_SP_CLIENT_SECRET }}'
+        name: Terraform Apply
