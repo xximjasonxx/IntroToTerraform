@@ -1,0 +1,22 @@
+name: Sample 4 App
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'sample4/app'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish App
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sample4/app
+    steps:
+      - uses: actions/checkout@2
+
+      - run: |
+          echo "Hello World"
