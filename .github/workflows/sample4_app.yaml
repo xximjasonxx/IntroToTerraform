@@ -26,4 +26,3 @@ jobs:
           action: upload
           app_location: ./sample4/app
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          output_location: wwwroot
