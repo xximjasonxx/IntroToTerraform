@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - sample4/app
+      - sample4/app/*
       - .github/workflows/sample4_app.yaml
   workflow_dispatch:
 
@@ -26,3 +26,4 @@ jobs:
           action: upload
           app_location: ./sample4/app
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          app_artifact_location: sample4/app/wwwroot

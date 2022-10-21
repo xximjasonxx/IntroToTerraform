@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - sample4/infra
+      - sample4/infra/*
       - .github/workflows/sample4_infra.yaml
   workflow_dispatch:
 
