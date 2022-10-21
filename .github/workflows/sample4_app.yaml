@@ -35,4 +35,3 @@ jobs:
           action: upload
           app_location: ./sample4/app
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          app_artifact_location: sample4/app/wwwroot
