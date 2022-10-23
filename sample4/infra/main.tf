@@ -4,7 +4,7 @@ data azurerm_resource_group rg {
 }
 
 resource azurerm_static_site swa {
-  name                = "swa-blazorapp-jm01"
+  name                = "swa-reactapp-jm01"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = "eastus2"
   sku_tier            = "Standard"
